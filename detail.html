@@ -38,18 +38,18 @@
         }
 
         .gallery-img {
-            width: 160px;
-            height: 100px;
+            width: 280px; 
+            height: 160px;
             object-fit: cover;
-            border-radius: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border-radius: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
             background-color: #1e293b;
         }
         
         .gallery-img:hover {
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.03);
             border-color: #3b82f6;
         }
 
@@ -57,9 +57,9 @@
             background: rgba(59, 130, 246, 0.1);
             color: #60a5fa;
             border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 4px 12px;
+            padding: 6px 16px;
             border-radius: 999px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -73,7 +73,6 @@
             transform: translateY(-2px);
         }
 
-        /* Perbaikan Tombol Salin */
         .copy-btn {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
@@ -98,49 +97,46 @@
             filter: brightness(1.1);
         }
 
-        .copy-btn:active {
-            transform: scale(0.97);
-        }
-
-        #summary {
+        .content-box {
             user-select: text !important;
             -webkit-user-select: text !important;
             cursor: text;
             white-space: pre-wrap;
             scrollbar-width: thin;
             scrollbar-color: #334155 transparent;
+            position: relative;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+            font-size: 0.875rem;
+            font-weight: 500;
+            overflow-y: auto;
         }
 
-        #summary::-webkit-scrollbar {
-            width: 6px;
-        }
-        #summary::-webkit-scrollbar-thumb {
-            background-color: #334155;
-            border-radius: 10px;
-        }
+        .content-box::-webkit-scrollbar { width: 6px; }
+        .content-box::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 10px; }
     </style>
 </head>
 <body class="opacity-0 transition-opacity duration-700" id="bodyTag">
 
-    <!-- Tombol Kembali -->
     <a href="tv_search.html" class="fixed top-6 left-6 z-50 bg-black/40 backdrop-blur-md p-3 rounded-full border border-white/10 hover:bg-blue-600 transition-all shadow-xl">
         <i class="fa-solid fa-chevron-left text-lg"></i>
     </a>
 
     <div class="pt-16 pb-10 px-6 max-w-7xl mx-auto">
-        <!-- Galeri Gambar -->
         <div id="galleryContainer" class="flex flex-wrap justify-center gap-6 mb-10 min-h-[140px]"></div>
 
         <div class="text-center mb-8">
             <h1 id="title" class="text-2xl md:text-4xl font-bold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">Memuat...</h1>
         </div>
 
-        <!-- Bagian Navigasi -->
         <div class="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="select-wrapper">
                 <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-2 ml-1">Pilih Musim</label>
-                <select id="seasonSelect" class="custom-select w-full bg-slate-900/80 border border-white/10 text-white p-4 rounded-2xl focus:outline-none focus:border-blue-500 transition-all cursor-pointer font-semibold shadow-2xl">
-                </select>
+                <select id="seasonSelect" class="custom-select w-full bg-slate-900/80 border border-white/10 text-white p-4 rounded-2xl focus:outline-none focus:border-blue-500 transition-all cursor-pointer font-semibold shadow-2xl"></select>
             </div>
 
             <div class="select-wrapper">
@@ -151,10 +147,8 @@
             </div>
         </div>
 
-        <!-- Konten Utama (Panel Informasi & Copy) -->
-        <main class="max-w-4xl mx-auto">
+        <main class="max-w-4xl mx-auto space-y-8">
             <section class="glass-panel p-6 md:p-10 rounded-[2.5rem]">
-                <!-- Header Panel -->
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30">
@@ -165,8 +159,6 @@
                             <p class="text-slate-400 text-xs mt-1">Siap untuk diposting ke media sosial</p>
                         </div>
                     </div>
-                    
-                    <!-- Tombol Salin Diperbesar -->
                     <div class="w-full md:w-auto">
                         <button id="copySummaryBtn" class="copy-btn">
                             <i class="fa-regular fa-copy text-lg"></i>
@@ -175,11 +167,62 @@
                     </div>
                 </div>
 
-                <!-- Box Teks -->
                 <div class="relative group">
                     <div class="absolute -inset-1 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                    <div id="summary" class="relative bg-black/40 border border-white/5 p-6 rounded-2xl text-slate-200 leading-relaxed text-sm font-medium h-[400px] overflow-y-auto">
+                    <div id="summary" class="content-box h-[400px]">
                         Silahkan pilih musim dan episode untuk melihat detail...
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel p-6 md:p-10 rounded-[2.5rem]">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30">
+                            <i class="fa-solid fa-bolt text-purple-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-white tracking-tight">Short Content / Tags</h2>
+                            <p class="text-slate-400 text-xs mt-1">Ringkasan cepat untuk caption singkat</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <button onclick="copyContent('summary2', this)" class="copy-btn !from-purple-600 !to-indigo-600">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                            <span>SALIN TAGS</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <div id="summary2" class="content-box h-[150px]">
+                        Data akan muncul di sini...
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel p-6 md:p-10 rounded-[2.5rem]">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center border border-emerald-500/30">
+                            <i class="fa-solid fa-globe text-emerald-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-white tracking-tight">SEO Link & Meta</h2>
+                            <p class="text-slate-400 text-xs mt-1">Gunakan untuk optimasi pencarian</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <button onclick="copyContent('summary3', this)" class="copy-btn !from-emerald-600 !to-teal-600">
+                            <i class="fa-regular fa-copy text-lg"></i>
+                            <span>SALIN SEO</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <div id="summary3" class="content-box h-[150px]">
+                        Data link akan muncul di sini...
                     </div>
                 </div>
                 
@@ -211,36 +254,26 @@
             const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
             const hashtagName = name.toLowerCase().replace(/ /g, '');
             const finalTmdbId = currentTmdbId || showId;
+            const watchLink = `https://usflix.online/tv/${finalTmdbId}/${season}/${episode}`;
             
-            return `${name} Season ${season} Episode ${episode} - Full Episode,"🎬 Watch ${name} - Season ${season} Episode ${episode} Full Episode
+            // Text Utama
+            const mainText = `${name} Season ${season} Episode ${episode} - Full Episode,"🎬 Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n${name} S${season}E${episode} HD\n${name} S${season} E${episode} Full HD\n${name} S${season}XE${episode} Full Episode\n${name} S${season} X E${episode} Full Episode HD\n${name} Season ${season} Episode ${episode} HD\n${name} Season ${season} Episode ${episode} Full HD\n${name} Season ${season} Episode ${episode} Full Episode\n\nI hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\nSubscribe to my channel and get notifications for the latest Episodes.\nThanks for visiting & watching.\n\n#${hashtagName} #${hashtagName}season${season} #${hashtagName}episode${episode} #${hashtagName}s${season}e${episode}\n#tvseries #episodereview #seriesrecap #showbreakdown"`;
 
-${name} S${season}E${episode} HD
-${name} S${season} E${episode} Full HD
-${name} S${season}XE${episode} Full Episode
-${name} S${season} X E${episode} Full Episode HD
-${name} Season ${season} Episode ${episode} HD
-${name} Season ${season} Episode ${episode} Full HD
-${name} Season ${season} Episode ${episode} Full Episode
+            // Isi Kolom 2 (Tags & Hashtags)
+            document.getElementById('summary2').innerText = `${name} Season ${season} Episode ${episode} - Full Episode`;
 
-I hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.
-Subscribe to my channel and get notifications for the latest Episodes.
-Thanks for visiting & watching.
+            // Isi Kolom 3 (SEO Link)
+            document.getElementById('summary3').innerText = `TITLE: ${name} S${season} E${episode}\nURL: ${watchLink}\n`;
 
-#${hashtagName}
-#${hashtagName}season${season}
-#${hashtagName}episode${episode}
-#${hashtagName}s${season}e${episode}
-#tvseries #episodereview #seriesrecap #showbreakdown",C:\\Users\\Administrator\\Desktop\\thumb\\${cleanName}_s${season}_e${episode}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanName}_s${season}_e${episode}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanName}_s${season}_e${episode}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanName}_s${season}_e${episode}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanName}_s${season}_e${episode}_5.jpg,"${name} S${season} E${episode}: https://justwatch-tv.online/tv/${finalTmdbId}/${season}/${episode}"`;
+            return mainText;
         }
 
         async function init() {
             try {
                 const showRes = await fetch(`https://api.tvmaze.com/shows/${showId}?embed[]=seasons&embed[]=episodes`);
                 const show = await showRes.json();
-
                 allEpisodes = show._embedded.episodes;
                 currentShowNameRaw = show.name;
-                
                 document.title = show.name;
                 document.getElementById('title').innerText = show.name;
 
@@ -258,38 +291,28 @@ Thanks for visiting & watching.
                 });
 
                 seasonSelect.onchange = (e) => {
-                    const seasonId = e.target.value;
-                    const selectedOption = e.target.options[e.target.selectedIndex];
-                    currentSeasonNum = parseInt(selectedOption.dataset.number);
+                    currentSeasonNum = parseInt(e.target.options[e.target.selectedIndex].dataset.number);
                     shuffleAndDisplayImages();
-                    loadEpisodes(seasonId, false);
+                    loadEpisodes(e.target.value, false);
                 };
 
                 if (allEpisodes.length > 0) {
                     const now = new Date();
                     let closestEpisode = allEpisodes[0];
                     let minDiff = Math.abs(now - new Date(allEpisodes[0].airdate || 0));
-
                     allEpisodes.forEach(ep => {
                         if (ep.airdate) {
                             const diff = Math.abs(now - new Date(ep.airdate));
-                            if (diff < minDiff) {
-                                minDiff = diff;
-                                closestEpisode = ep;
-                            }
+                            if (diff < minDiff) { minDiff = diff; closestEpisode = ep; }
                         }
                     });
-
                     const targetSeason = seasons.find(s => s.number === closestEpisode.season) || seasons[seasons.length - 1];
-                    const targetSeasonIndex = seasons.indexOf(targetSeason);
-                    
-                    seasonSelect.selectedIndex = targetSeasonIndex;
+                    seasonSelect.selectedIndex = seasons.indexOf(targetSeason);
                     currentSeasonNum = targetSeason.number;
-                    
                     loadEpisodes(targetSeason.id, false, closestEpisode.number);
                 }
 
-                document.getElementById('copySummaryBtn').onclick = copyToClipboard;
+                document.getElementById('copySummaryBtn').onclick = () => copyContent('summary', document.getElementById('copySummaryBtn'));
                 document.getElementById('bodyTag').classList.remove('opacity-0');
             } catch (err) {
                 console.error(err);
@@ -301,32 +324,22 @@ Thanks for visiting & watching.
             try {
                 const searchRes = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
                 const searchData = await searchRes.json();
-                
                 if (searchData.results && searchData.results.length > 0) {
-                    const tmdbId = searchData.results[0].id;
-                    currentTmdbId = tmdbId;
-
-                    const imgRes = await fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/images?api_key=${TMDB_API_KEY}`);
+                    currentTmdbId = searchData.results[0].id;
+                    const imgRes = await fetch(`https://api.themoviedb.org/3/tv/${currentTmdbId}/images?api_key=${TMDB_API_KEY}`);
                     const imgData = await imgRes.json();
-                    
                     const source = (imgData.backdrops && imgData.backdrops.length > 0) ? imgData.backdrops : imgData.posters;
                     backdropPool = source.map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
-                    
                     shuffleAndDisplayImages();
                 }
-            } catch (e) {
-                console.error("Gagal memuat data TMDB", e);
-            }
+            } catch (e) { console.error(e); }
         }
 
         function shuffleAndDisplayImages() {
             if (backdropPool.length === 0) return;
-            let shuffled = [...backdropPool].sort(() => 0.5 - Math.random());
-            let finalImages = [];
-            for (let i = 0; i < 5; i++) {
-                finalImages.push(shuffled[i % shuffled.length]);
-            }
-            updateGallery(finalImages);
+            const randomIndex = Math.floor(Math.random() * backdropPool.length);
+            const selectedImage = backdropPool[randomIndex];
+            updateGallery([selectedImage]);
         }
 
         function updateGallery(imageUrls) {
@@ -334,16 +347,16 @@ Thanks for visiting & watching.
             gallery.innerHTML = '';
             const cleanTitle = currentShowNameRaw.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-            imageUrls.forEach((url, index) => {
+            imageUrls.forEach((url) => {
                 const container = document.createElement('div');
                 container.className = 'gallery-item-container';
                 const img = document.createElement('img');
                 img.src = optimizeImg(url, 600);
                 img.className = 'gallery-img';
-                const fileName = `${cleanTitle}_s${currentSeasonNum}_e${currentEpNum}_${index + 1}.jpg`;
+                const fileName = `${cleanTitle}_s${currentSeasonNum}_e${currentEpNum}_1.jpg`;
                 const dbtn = document.createElement('button');
                 dbtn.className = 'download-btn';
-                dbtn.innerHTML = `<i class="fa-solid fa-download"></i> Unduh`;
+                dbtn.innerHTML = `<i class="fa-solid fa-download"></i> Unduh Gambar`;
                 dbtn.onclick = () => downloadImage(url, fileName);
                 container.appendChild(img);
                 container.appendChild(dbtn);
@@ -357,87 +370,69 @@ Thanks for visiting & watching.
                 const blob = await response.blob();
                 const blobUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = name;
-                document.body.appendChild(a);
-                a.click();
+                a.href = blobUrl; a.download = name;
+                document.body.appendChild(a); a.click();
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(blobUrl);
-            } catch (e) {
-                console.error("Gagal unduh", e);
-            }
+            } catch (e) { console.error(e); }
         }
 
         async function loadEpisodes(seasonId, autoSelectLast, targetEpisodeNum = null) {
             const epSelect = document.getElementById('episodeSelect');
             epSelect.disabled = false;
             epSelect.classList.remove('opacity-50');
-            
             try {
                 const res = await fetch(`https://api.tvmaze.com/seasons/${seasonId}/episodes`);
                 const episodes = await res.json();
                 epSelect.innerHTML = '<option value="" disabled>Pilih Episode...</option>';
-
                 let targetIndex = -1;
                 episodes.forEach((e, idx) => {
-                    const airDateObj = e.airdate ? new Date(e.airdate) : null;
-                    const airDateStr = e.airdate ? airDateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'TBA';
+                    const airDateStr = e.airdate ? new Date(e.airdate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : 'TBA';
                     const option = document.createElement('option');
                     option.value = JSON.stringify({ number: e.number });
                     option.textContent = `Eps ${e.number} - (${airDateStr})`;
                     epSelect.appendChild(option);
                     if (targetEpisodeNum && e.number === targetEpisodeNum) targetIndex = idx + 1;
                 });
-
                 epSelect.onchange = (e) => {
-                    const data = JSON.parse(e.target.value);
-                    currentEpNum = data.number;
+                    currentEpNum = JSON.parse(e.target.value).number;
                     document.getElementById('summary').innerText = generatePromoText(currentShowNameRaw, currentSeasonNum, currentEpNum);
                     shuffleAndDisplayImages();
                 };
-
                 if (targetIndex !== -1) epSelect.selectedIndex = targetIndex;
-                else if (autoSelectLast && episodes.length > 0) epSelect.selectedIndex = episodes.length; 
                 else if (episodes.length > 0) epSelect.selectedIndex = 1;
 
                 if (epSelect.selectedIndex > 0) {
-                    const data = JSON.parse(epSelect.options[epSelect.selectedIndex].value);
-                    currentEpNum = data.number;
+                    currentEpNum = JSON.parse(epSelect.options[epSelect.selectedIndex].value).number;
                     document.getElementById('summary').innerText = generatePromoText(currentShowNameRaw, currentSeasonNum, currentEpNum);
                     shuffleAndDisplayImages();
                 }
-            } catch (err) {
-                console.error(err);
-            }
+            } catch (err) { console.error(err); }
         }
 
-        async function copyToClipboard() {
-            const summaryDiv = document.getElementById('summary');
-            const btn = document.getElementById('copySummaryBtn');
-            const textToCopy = summaryDiv.innerText;
+        // FUNGSI COPY UNIVERSAL
+        function copyContent(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
             const el = document.createElement('textarea');
-            el.value = textToCopy;
-            document.body.appendChild(el);
+            el.value = text;
+            document.body.appendChild(el); 
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
+
             const originalHTML = btn.innerHTML;
+            const originalBg = btn.style.background;
+            
             btn.innerHTML = `<i class="fa-solid fa-check-circle"></i> <span>BERHASIL DISALIN!</span>`;
             btn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
-            btn.style.boxShadow = "0 10px 20px -5px rgba(16, 185, 129, 0.4)";
             
             setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.style.background = "";
-                btn.style.boxShadow = "";
+                btn.innerHTML = originalHTML; 
+                btn.style.background = originalBg;
             }, 2500);
         }
 
         init();
     </script>
 </body>
-
 </html>
-
-
