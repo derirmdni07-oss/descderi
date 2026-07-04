@@ -7,146 +7,140 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #080d17;
-            color: #f8fafc;
+            background-color: #0b121f;
+            color: #f1f5f9;
         }
 
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .custom-select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233b82f6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233b82f6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.2em;
+            background-position: right 1.25rem center;
+            background-size: 1.1em;
         }
 
-        /* Gambar Tetap Kecil & Presisi */
-        .gallery-item-container {
-            display: flex;
-            justify-content: center;
+        /* Styling Galeri Rapi & Presisi */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.75rem;
             width: 100%;
-            max-width: 400px; 
-            margin: 0 auto;
         }
 
         .gallery-img {
             width: 100%;
             aspect-ratio: 16 / 9;
             object-fit: cover;
-            border-radius: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             background-color: #1e293b;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.02);
+            border-color: #3b82f6;
         }
 
-        /* Tombol Copy Diperbesar */
-        .copy-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        /* Tombol Copy & Download Estetik */
+        .action-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            padding: 18px 28px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 800;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             cursor: pointer;
             width: 100%;
             border: none;
-            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .copy-btn:hover {
+        .action-btn:hover {
             transform: translateY(-2px);
-            filter: brightness(1.1);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            filter: brightness(1.05);
         }
 
-        /* Kolom Teks Lebih Ramping */
+        /* Kotak Deskripsi */
         .content-box {
             user-select: text !important;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 1.2rem;
-            border-radius: 1rem;
-            color: #e2e8f0;
+            background: rgba(7, 11, 20, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.25rem;
+            border-radius: 14px;
+            color: #cbd5e1;
             line-height: 1.6;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             overflow-y: auto;
-        }
-
-        .section-compact {
-            padding: 1.5rem !important;
-            border-radius: 2rem !important;
+            white-space: pre-wrap;
         }
     </style>
 </head>
 <body class="opacity-0 transition-opacity duration-700" id="bodyTag">
 
-    <a href="tv_search.html" class="fixed top-4 left-4 z-50 bg-black/40 backdrop-blur-md p-3 rounded-full border border-white/10 hover:bg-blue-600 transition-all">
-        <i class="fa-solid fa-chevron-left text-lg"></i>
+    <a href="tv_search.html" class="fixed top-5 left-5 z-50 bg-slate-900/60 backdrop-blur-md p-3.5 rounded-full border border-white/5 hover:bg-blue-600 hover:text-white transition-all shadow-lg">
+        <i class="fa-solid fa-chevron-left text-base"></i>
     </a>
 
-    <div class="pt-8 pb-10 px-4 max-w-5xl mx-auto">
-        <div id="galleryContainer" class="mb-6"></div>
-
-        <div class="text-center mb-6">
-            <h1 id="title" class="text-xl md:text-3xl font-bold text-white">Memuat...</h1>
+    <div class="pt-10 pb-16 px-4 max-w-5xl mx-auto space-y-8">
+        
+        <div class="text-center">
+            <h1 id="title" class="text-2xl md:text-4xl font-bold tracking-tight text-white mb-1">Memuat...</h1>
+            <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide uppercase">Dashboard Konten Serial TV</p>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-4 items-stretch glass-panel p-4 rounded-2xl shadow-xl">
+            <div id="galleryContainer" class="w-full md:w-[80%] flex items-center">
+                </div>
+            <div class="w-full md:w-[20%] flex items-center">
+                <button id="downloadImagesBtn" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 hover:scale-[1.02] active:scale-[0.98] text-white font-semibold p-4 rounded-xl flex flex-col items-center justify-center gap-2 text-center text-xs uppercase tracking-wider transition-all w-full h-full min-h-[90px] border border-emerald-500/20 shadow-md">
+                    <i class="fa-solid fa-cloud-arrow-down text-2xl"></i>
+                    <span>Download Gambar</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Pemilih (Dua Kolom) -->
-        <div class="max-w-xl mx-auto grid grid-cols-2 gap-4 mb-6">
+        <div class="max-w-2xl mx-auto grid grid-cols-2 gap-5">
             <div>
-                <label class="block text-[10px] font-bold text-blue-400 uppercase mb-1 ml-1">Pilih Musim</label>
-                <select id="seasonSelect" class="custom-select w-full bg-slate-900 border border-white/10 text-white p-3 rounded-xl focus:outline-none text-sm"></select>
+                <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Musim</label>
+                <select id="seasonSelect" class="custom-select w-full bg-slate-900/90 border border-white/10 text-white font-semibold text-base p-3.5 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all shadow-inner"></select>
             </div>
             <div>
-                <label class="block text-[10px] font-bold text-purple-400 uppercase mb-1 ml-1">Pilih Episode</label>
-                <select id="episodeSelect" disabled class="custom-select w-full bg-slate-900 border border-white/10 text-white p-3 rounded-xl focus:outline-none text-sm opacity-50"></select>
+                <label class="block text-xs font-bold text-purple-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Episode</label>
+                <select id="episodeSelect" disabled class="custom-select w-full bg-slate-900/90 border border-white/10 text-white font-semibold text-base p-3.5 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all shadow-inner opacity-50"></select>
             </div>
         </div>
 
-        <main class="max-w-3xl mx-auto space-y-6">
-            <!-- Kolom Utama (Isi dipertahankan sesuai keinginan) -->
-            <section class="glass-panel section-compact">
-                <div class="flex flex-col gap-4 mb-4">
+        <main class="max-w-3xl mx-auto">
+            <section class="glass-panel p-6 rounded-3xl shadow-xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-file-lines text-blue-500 text-lg"></i>
-                        <h2 class="text-lg font-bold text-white">Teks Promo & Detail</h2>
+                        <i class="fa-solid fa-file-lines text-blue-500 text-xl"></i>
+                        <h2 class="text-lg font-semibold text-white tracking-wide">Teks Promo & Detail Eksport</h2>
                     </div>
-                    <button id="copySummaryBtn" class="copy-btn">
-                        <i class="fa-regular fa-copy text-2xl"></i>
-                        <span>SALIN SEMUA TEKS</span>
+                    <button id="copySummaryBtn" class="action-btn sm:w-auto px-8 py-3.5 uppercase text-xs tracking-wider">
+                        <i class="fa-regular fa-copy text-lg"></i>
+                        <span>Salin Semua Teks</span>
                     </button>
                 </div>
-                <div id="summary" class="content-box h-[300px]">Memproses data...</div>
+                <div id="summary" class="content-box h-[340px] shadow-inner">Memproses data...</div>
             </section>
-
-            <!-- Kolom Tags & SEO -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <section class="glass-panel section-compact">
-                    <button onclick="copyContent('summary2', this)" class="copy-btn !py-3 !text-xs !from-purple-600 !to-indigo-600 mb-3">
-                        <i class="fa-regular fa-copy"></i> SALIN TAGS
-                    </button>
-                    <div id="summary2" class="content-box h-[100px]">Data...</div>
-                </section>
-
-                <section class="glass-panel section-compact">
-                    <button onclick="copyContent('summary3', this)" class="copy-btn !py-3 !text-xs !from-emerald-600 !to-teal-600 mb-3">
-                        <i class="fa-regular fa-copy"></i> SALIN SEO
-                    </button>
-                    <div id="summary3" class="content-box h-[100px]">Link...</div>
-                </section>
-            </div>
         </main>
     </div>
 
@@ -161,20 +155,31 @@
         let currentEpNum = 1;
         let currentTmdbId = "";
         let backdropPool = []; 
+        let currentActiveImages = [];
 
         if (!showId) window.location.href = 'tv_search.html';
 
         function generatePromoText(name, season, episode) {
+            const cleanTitle = name.toLowerCase().replace(/[^a-z0-9]/g, '');
             const hashtagName = name.toLowerCase().replace(/ /g, '');
             const finalTmdbId = currentTmdbId || showId;
             const watchLink = `https://usflix.online/tv/${finalTmdbId}/${season}/${episode}`;
             
-            const mainText = `🎬 Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n${name} S${season}E${episode} HD\n${name} S${season} E${episode} Full HD\n${name} S${season}XE${episode} Full Episode\n${name} S${season} X E${episode} Full Episode HD\n${name} Season ${season} Episode ${episode} HD\n${name} Season ${season} Episode ${episode} Full HD\n${name} Season ${season} Episode ${episode} Full Episode\n\nI hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\nSubscribe to my channel and get notifications for the latest Episodes.\nThanks for visiting & watching.\n\n#${hashtagName} #${hashtagName}season${season} #${hashtagName}episode${episode} #${hashtagName}s${season}e${episode}\n#tvseries #episodereview #seriesrecap #showbreakdown`;
+            return `${name} Season ${season} Episode ${episode} Full Episode HD,"Watch ${name} - Season ${season} Episode ${episode} Full Episode
 
-            document.getElementById('summary2').innerText = `${name} Season ${season} Episode ${episode} - Full Episode`;
-            document.getElementById('summary3').innerText = `TITLE: ${name} S${season} E${episode}\nURL: ${watchLink}\n`;
+${name} S${season}E${episode} HD
+${name} S${season} E${episode} Full HD
+${name} S${season}XE${episode} Full Episode
+${name} S${season} X E${episode} Full Episode HD
+${name} Season ${season} Episode ${episode} HD
+${name} Season ${season} Episode ${episode} Full HD
+${name} Season ${season} Episode ${episode} Full Episode
 
-            return mainText;
+This video contains commentary, reactions, analysis, and discussion about ${name} Season ${season} Episode ${episode}.
+
+I hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.
+Subscribe to my channel and get notifications for the latest Episodes.
+Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${season}\n#${hashtagName}episode${episode}\n#${hashtagName}s${season}e${episode}\n#tvseries #episodereview #seriesrecap #showbreakdown",C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_5.jpg,"${name} S${season} E${episode}: ${watchLink}"`;
         }
 
         async function init() {
@@ -219,6 +224,7 @@
                 }
 
                 document.getElementById('copySummaryBtn').onclick = () => copyContent('summary', document.getElementById('copySummaryBtn'));
+                document.getElementById('downloadImagesBtn').onclick = downloadAllImages;
                 document.getElementById('bodyTag').classList.remove('opacity-0');
             } catch (err) { console.error(err); }
         }
@@ -231,7 +237,7 @@
                     currentTmdbId = searchData.results[0].id;
                     const imgRes = await fetch(`https://api.themoviedb.org/3/tv/${currentTmdbId}/images?api_key=${TMDB_API_KEY}`);
                     const imgData = await imgRes.json();
-                    // Mengambil URL original untuk kualitas terbaik sebelum di-resize oleh wsrv
+                    
                     backdropPool = (imgData.backdrops.length > 0 ? imgData.backdrops : imgData.posters)
                                    .map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
                     shuffleAndDisplayImages();
@@ -239,15 +245,60 @@
             } catch (e) { console.error(e); }
         }
 
-        // BAGIAN YANG DIUBAH SESUAI REQUEST
         function shuffleAndDisplayImages() {
             if (backdropPool.length === 0) return;
-            const originalUrl = backdropPool[Math.floor(Math.random() * backdropPool.length)];
             
-            // Integrasi wsrv.nl dengan parameter: w=600, h=338, fit=cover, q=60
-            const optimizedUrl = `https://wsrv.nl/?url=${encodeURIComponent(originalUrl)}&w=600&h=338&fit=cover&q=60`;
+            let shuffled = [...backdropPool].sort(() => 0.5 - Math.random());
+            let selectedImages = shuffled.slice(0, 5);
             
-            document.getElementById('galleryContainer').innerHTML = `<div class="gallery-item-container"><img src="${optimizedUrl}" class="gallery-img"></div>`;
+            while(selectedImages.length < 5) {
+                selectedImages.push(backdropPool[Math.floor(Math.random() * backdropPool.length)]);
+            }
+
+            currentActiveImages = selectedImages;
+
+            let htmlContent = '<div class="gallery-grid">';
+            selectedImages.forEach(url => {
+                const optimizedUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=600&h=338&fit=cover&q=60`;
+                htmlContent += `<div><img src="${optimizedUrl}" class="gallery-img"></div>`;
+            });
+            htmlContent += '</div>';
+
+            document.getElementById('galleryContainer').innerHTML = htmlContent;
+        }
+
+        async function downloadAllImages() {
+            if (currentActiveImages.length === 0) return;
+            const btn = document.getElementById('downloadImagesBtn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-xl"></i> <span>...</span>`;
+
+            const cleanTitle = currentShowNameRaw.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            for (let i = 0; i < currentActiveImages.length; i++) {
+                try {
+                    const optimizedUrl = `https://wsrv.nl/?url=${encodeURIComponent(currentActiveImages[i])}&w=600&h=338&fit=cover&q=60`;
+                    const response = await fetch(optimizedUrl);
+                    const blob = await response.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = `${cleanTitle}_${i+1}.jpg`;
+                    
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(blobUrl);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                } catch (error) {
+                    console.error("Gagal mendownload gambar ke-" + (i+1), error);
+                }
+            }
+            
+            btn.innerHTML = `<i class="fa-solid fa-check text-xl"></i> <span>Sukses!</span>`;
+            setTimeout(() => btn.innerHTML = originalHTML, 2000);
         }
 
         async function loadEpisodes(seasonId, autoSelectLast, targetEpisodeNum = null) {
