@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -94,20 +94,24 @@
 </head>
 <body class="opacity-0 transition-opacity duration-700" id="bodyTag">
 
+    <!-- Tombol Kembali Minimalis -->
     <a href="tv_search.html" class="fixed top-5 left-5 z-50 bg-slate-900/60 backdrop-blur-md p-3.5 rounded-full border border-white/5 hover:bg-blue-600 hover:text-white transition-all shadow-lg">
         <i class="fa-solid fa-chevron-left text-base"></i>
     </a>
 
     <div class="pt-10 pb-16 px-4 max-w-5xl mx-auto space-y-8">
         
+        <!-- Header Judul Utama -->
         <div class="text-center">
             <h1 id="title" class="text-2xl md:text-4xl font-bold tracking-tight text-white mb-1">Memuat...</h1>
             <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide uppercase">Dashboard Konten Serial TV</p>
         </div>
         
+        <!-- Wadah Gambar Atas & Tombol Download Sejajar -->
         <div class="flex flex-col md:flex-row gap-4 items-stretch glass-panel p-4 rounded-2xl shadow-xl">
             <div id="galleryContainer" class="w-full md:w-[80%] flex items-center">
-                </div>
+                <!-- 5 Gambar ter-generate otomatis -->
+            </div>
             <div class="w-full md:w-[20%] flex items-center">
                 <button id="downloadImagesBtn" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 hover:scale-[1.02] active:scale-[0.98] text-white font-semibold p-4 rounded-xl flex flex-col items-center justify-center gap-2 text-center text-xs uppercase tracking-wider transition-all w-full h-full min-h-[90px] border border-emerald-500/20 shadow-md">
                     <i class="fa-solid fa-cloud-arrow-down text-2xl"></i>
@@ -116,6 +120,7 @@
             </div>
         </div>
 
+        <!-- Pemilih Dropdown (Font Dipertegas & Diperjelas) -->
         <div class="max-w-2xl mx-auto grid grid-cols-2 gap-5">
             <div>
                 <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Musim</label>
@@ -127,6 +132,7 @@
             </div>
         </div>
 
+        <!-- Kotak Kolom Hasil Utama -->
         <main class="max-w-3xl mx-auto">
             <section class="glass-panel p-6 rounded-3xl shadow-xl space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -165,7 +171,11 @@
             const finalTmdbId = currentTmdbId || showId;
             const watchLink = `https://usflix.online/tv/${finalTmdbId}/${season}/${episode}`;
             
-            return `${name} Season ${season} Episode ${episode} Full Episode HD,"Watch ${name} - Season ${season} Episode ${episode} Full Episode
+            // Logika Pengacak Akhiran Judul Utama
+            const suffixes = ["Full Episode HD", "Full Episode", "(HD)"];
+            const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+            
+            return `${name} Season ${season} Episode ${episode} ${randomSuffix},"Watch ${name} - Season ${season} Episode ${episode} Full Episode
 
 ${name} S${season}E${episode} HD
 ${name} S${season} E${episode} Full HD
