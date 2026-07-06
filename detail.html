@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Serial TV - TV HUB</title>
+    <title>TV HUB - Dashboard Details</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -91,15 +91,15 @@
 </head>
 <body class="opacity-0 transition-opacity duration-700" id="bodyTag">
 
-    <a href="tv_search.html" class="fixed top-5 left-5 z-50 bg-slate-900/60 backdrop-blur-md p-3.5 rounded-full border border-white/5 hover:bg-blue-600 hover:text-white transition-all shadow-lg">
+    <a href="index.html" class="fixed top-5 left-5 z-50 bg-slate-900/60 backdrop-blur-md p-3.5 rounded-full border border-white/5 hover:bg-blue-600 hover:text-white transition-all shadow-lg">
         <i class="fa-solid fa-chevron-left text-base"></i>
     </a>
 
     <div class="pt-10 pb-16 px-4 max-w-5xl mx-auto space-y-8">
         
         <div class="text-center">
-            <h1 id="title" class="text-2xl md:text-4xl font-bold tracking-tight text-white mb-1">Memuat...</h1>
-            <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide uppercase">Dashboard Konten Serial TV</p>
+            <h1 id="title" class="text-2xl md:text-4xl font-bold tracking-tight text-white mb-1">Loading...</h1>
+            <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide uppercase">TV Series Export Dashboard</p>
         </div>
         
         <div class="flex flex-col md:flex-row gap-4 items-stretch glass-panel p-4 rounded-2xl shadow-xl">
@@ -107,18 +107,18 @@
             <div class="w-full md:w-[20%] flex items-center">
                 <button id="downloadImagesBtn" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 hover:scale-[1.02] active:scale-[0.98] text-white font-semibold p-4 rounded-xl flex flex-col items-center justify-center gap-2 text-center text-xs uppercase tracking-wider transition-all w-full h-full min-h-[90px] border border-emerald-500/20 shadow-md">
                     <i class="fa-solid fa-cloud-arrow-down text-2xl"></i>
-                    <span>Download Gambar</span>
+                    <span>Download Images</span>
                 </button>
             </div>
         </div>
 
         <div class="max-w-2xl mx-auto grid grid-cols-2 gap-5">
             <div>
-                <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Musim</label>
+                <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5 ml-1">Select Season</label>
                 <select id="seasonSelect" class="custom-select w-full bg-slate-900/90 border border-white/10 text-white font-semibold text-base p-3.5 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none transition-all shadow-inner"></select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-purple-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Episode</label>
+                <label class="block text-xs font-bold text-purple-400 uppercase tracking-widest mb-1.5 ml-1">Select Episode</label>
                 <select id="episodeSelect" disabled class="custom-select w-full bg-slate-900/90 border border-white/10 text-white font-semibold text-base p-3.5 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all shadow-inner opacity-50"></select>
             </div>
         </div>
@@ -128,14 +128,14 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <i class="fa-solid fa-file-lines text-blue-500 text-xl"></i>
-                        <h2 class="text-lg font-semibold text-white tracking-wide">Teks Promo & Detail Eksport</h2>
+                        <h2 class="text-lg font-semibold text-white tracking-wide">Promo Text & Export Details</h2>
                     </div>
                     <button id="copySummaryBtn" class="action-btn sm:w-auto px-8 py-3.5 uppercase text-xs tracking-wider">
                         <i class="fa-regular fa-copy text-lg"></i>
-                        <span>Salin Semua Teks</span>
+                        <span>Copy Full Text</span>
                     </button>
                 </div>
-                <div id="summary" class="content-box h-[340px] shadow-inner">Memproses data...</div>
+                <div id="summary" class="content-box h-[340px] shadow-inner">Processing data...</div>
             </section>
         </main>
     </div>
@@ -151,7 +151,7 @@
         let backdropPool = []; 
         let currentActiveImages = [];
 
-        if (!showId) window.location.href = 'tv_search.html';
+        if (!showId) window.location.href = 'index.html';
 
         function generatePromoText(name, season, episode) {
             const cleanTitle = name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -180,8 +180,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
 
         async function init() {
             try {
-                // Ambil data utama serial TV dari TMDB
-                const showRes = await fetch(`https://api.themoviedb.org/3/tv/${showId}?api_key=${TMDB_API_KEY}&language=id-ID`);
+                const showRes = await fetch(`https://api.themoviedb.org/3/tv/${showId}?api_key=${TMDB_API_KEY}&language=en-US`);
                 const show = await showRes.json();
                 
                 currentShowNameRaw = show.name;
@@ -189,7 +188,6 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
 
                 await fetchTMDBImages(showId);
 
-                // Mengisi data Season
                 const seasonSelect = document.getElementById('seasonSelect');
                 const validSeasons = show.seasons.filter(s => s.season_number > 0);
                 
@@ -200,7 +198,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     seasonSelect.appendChild(option);
                 });
 
-                // --- LOGIKA UTAMA: KRITERIA TANGGAL TAYANG TERDEKAT (TODAY/WEEKLY ON-AIR) ---
+                // --- CRITERIA: DETECT CURRENT EPS / SEASON NEAREST TO TODAY ---
                 let targetSeason = validSeasons.length > 0 ? validSeasons[0].season_number : 1;
                 let targetEpisode = 1;
 
@@ -221,13 +219,12 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     loadEpisodes(showId, currentSeasonNum); 
                 };
 
-                // Muat episode dan kunci baris data terdekat hari ini
                 await loadEpisodes(showId, currentSeasonNum, targetEpisode);
 
                 document.getElementById('copySummaryBtn').onclick = () => copyContent('summary', document.getElementById('copySummaryBtn'));
                 document.getElementById('downloadImagesBtn').onclick = downloadAllImages;
                 document.getElementById('bodyTag').classList.remove('opacity-0');
-            } catch (err) { console.error("Gagal memuat detail utama TMDB:", err); }
+            } catch (err) { console.error("Error loading TMDB primary details:", err); }
         }
 
         async function fetchTMDBImages(tmdbId) {
@@ -241,7 +238,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     backdropPool = imgData.posters.map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
                 }
                 shuffleAndDisplayImages();
-            } catch (e) { console.error("Gagal memproses asset gambar dari TMDB:", e); }
+            } catch (e) { console.error("Error fetching images pool:", e); }
         }
 
         function shuffleAndDisplayImages() {
@@ -270,7 +267,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
             if (currentActiveImages.length === 0) return;
             const btn = document.getElementById('downloadImagesBtn');
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-xl"></i> <span>...</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-xl"></i> <span>Processing...</span>`;
 
             const cleanTitle = currentShowNameRaw.toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -292,11 +289,11 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     
                     await new Promise(resolve => setTimeout(resolve, 300));
                 } catch (error) {
-                    console.error("Gagal mendownload gambar ke-" + (i+1), error);
+                    console.error("Failed to download image index " + (i+1), error);
                 }
             }
             
-            btn.innerHTML = `<i class="fa-solid fa-check text-xl"></i> <span>Sukses!</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-check text-xl"></i> <span>Success!</span>`;
             setTimeout(() => btn.innerHTML = originalHTML, 2000);
         }
 
@@ -306,10 +303,10 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
             epSelect.classList.remove('opacity-50');
             
             try {
-                const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${TMDB_API_KEY}&language=id-ID`);
+                const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${TMDB_API_KEY}&language=en-US`);
                 const seasonData = await res.json();
                 
-                epSelect.innerHTML = '<option value="" disabled>Pilih Episode...</option>';
+                epSelect.innerHTML = '<option value="" disabled>Choose Episode...</option>';
                 
                 if(seasonData.episodes && seasonData.episodes.length > 0) {
                     let matchedIndex = 1; 
@@ -334,12 +331,12 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     epSelect.selectedIndex = matchedIndex;
                     epSelect.dispatchEvent(new Event('change'));
                 } else {
-                    epSelect.innerHTML = '<option value="" disabled>Tidak ada episode</option>';
+                    epSelect.innerHTML = '<option value="" disabled>No episodes found</option>';
                     epSelect.disabled = true;
                     epSelect.classList.add('opacity-50');
                 }
             } catch (err) {
-                console.error("Gagal memuat episode dari TMDB:", err);
+                console.error("Failed to parse season episodes from TMDB:", err);
             }
         }
 
@@ -347,7 +344,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
             const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
                 const original = btn.innerHTML;
-                btn.innerHTML = `<i class="fa-solid fa-check"></i> BERHASIL DISALIN!`;
+                btn.innerHTML = `<i class="fa-solid fa-check"></i> COPIED SUCCESSFULLY!`;
                 setTimeout(() => btn.innerHTML = original, 2500);
             });
         }
