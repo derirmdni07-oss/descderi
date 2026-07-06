@@ -180,6 +180,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
 
         async function init() {
             try {
+                // Ambil data utama serial TV dari TMDB
                 const showRes = await fetch(`https://api.themoviedb.org/3/tv/${showId}?api_key=${TMDB_API_KEY}&language=id-ID`);
                 const show = await showRes.json();
                 
@@ -188,6 +189,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
 
                 await fetchTMDBImages(showId);
 
+                // Mengisi data Season
                 const seasonSelect = document.getElementById('seasonSelect');
                 const validSeasons = show.seasons.filter(s => s.season_number > 0);
                 
@@ -198,17 +200,14 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     seasonSelect.appendChild(option);
                 });
 
-                // --- LOGIKA UTAMA: MENCARI EPS / SEASON TERDEKAT DENGAN HARI INI ---
+                // --- LOGIKA UTAMA: KRITERIA TANGGAL TAYANG TERDEKAT (TODAY/WEEKLY ON-AIR) ---
                 let targetSeason = validSeasons.length > 0 ? validSeasons[0].season_number : 1;
                 let targetEpisode = 1;
 
-                // Jika ada episode baru yang akan tayang dalam waktu dekat (Next Episode)
                 if (show.next_episode_to_air) {
                     targetSeason = show.next_episode_to_air.season_number;
                     targetEpisode = show.next_episode_to_air.episode_number;
-                } 
-                // Jika tidak ada episode masa depan, ambil episode terakhir yang baru saja rilis (Last Episode)
-                else if (show.last_episode_to_air) {
+                } else if (show.last_episode_to_air) {
                     targetSeason = show.last_episode_to_air.season_number;
                     targetEpisode = show.last_episode_to_air.episode_number;
                 }
@@ -219,16 +218,16 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                 seasonSelect.onchange = (e) => {
                     currentSeasonNum = parseInt(e.target.value);
                     shuffleAndDisplayImages();
-                    loadEpisodes(showId, currentSeasonNum); // Jika diganti manual, default episode 1
+                    loadEpisodes(showId, currentSeasonNum); 
                 };
 
-                // Load episode dan paksa auto-select ke episode terdekat yang sudah dihitung
+                // Muat episode dan kunci baris data terdekat hari ini
                 await loadEpisodes(showId, currentSeasonNum, targetEpisode);
 
                 document.getElementById('copySummaryBtn').onclick = () => copyContent('summary', document.getElementById('copySummaryBtn'));
                 document.getElementById('downloadImagesBtn').onclick = downloadAllImages;
                 document.getElementById('bodyTag').classList.remove('opacity-0');
-            } catch (err) { console.error("Gagal memuat data utama TMDB:", err); }
+            } catch (err) { console.error("Gagal memuat detail utama TMDB:", err); }
         }
 
         async function fetchTMDBImages(tmdbId) {
@@ -242,7 +241,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                     backdropPool = imgData.posters.map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
                 }
                 shuffleAndDisplayImages();
-            } catch (e) { console.error("Gagal mengambil gambar dari TMDB ID:", e); }
+            } catch (e) { console.error("Gagal memproses asset gambar dari TMDB:", e); }
         }
 
         function shuffleAndDisplayImages() {
@@ -313,7 +312,7 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                 epSelect.innerHTML = '<option value="" disabled>Pilih Episode...</option>';
                 
                 if(seasonData.episodes && seasonData.episodes.length > 0) {
-                    let matchedIndex = 1; // Default ke opsi pertama jika tidak ada kecocokan
+                    let matchedIndex = 1; 
 
                     seasonData.episodes.forEach((e, idx) => {
                         const option = document.createElement('option');
@@ -321,7 +320,6 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                         option.textContent = `Eps ${e.episode_number} - (${e.air_date || 'TBA'})`;
                         epSelect.appendChild(option);
 
-                        // Kunci baris index select jika nomor episodenya cocok dengan target terdekat
                         if (targetEpisodeNum && e.episode_number === parseInt(targetEpisodeNum)) {
                             matchedIndex = idx + 1; 
                         }
@@ -333,7 +331,6 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
                         shuffleAndDisplayImages();
                     };
 
-                    // Set select option secara otomatis ke episode terdekat
                     epSelect.selectedIndex = matchedIndex;
                     epSelect.dispatchEvent(new Event('change'));
                 } else {
