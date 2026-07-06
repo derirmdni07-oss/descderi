@@ -29,7 +29,6 @@
             background-size: 1.1em;
         }
 
-        /* Styling Galeri Rapi & Presisi */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -52,7 +51,6 @@
             border-color: #3b82f6;
         }
 
-        /* Tombol Copy & Download Estetik */
         .action-btn {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
@@ -77,7 +75,6 @@
             filter: brightness(1.05);
         }
 
-        /* Kotak Deskripsi */
         .content-box {
             user-select: text !important;
             background: rgba(7, 11, 20, 0.5);
@@ -94,24 +91,19 @@
 </head>
 <body class="opacity-0 transition-opacity duration-700" id="bodyTag">
 
-    <!-- Tombol Kembali Minimalis -->
     <a href="tv_search.html" class="fixed top-5 left-5 z-50 bg-slate-900/60 backdrop-blur-md p-3.5 rounded-full border border-white/5 hover:bg-blue-600 hover:text-white transition-all shadow-lg">
         <i class="fa-solid fa-chevron-left text-base"></i>
     </a>
 
     <div class="pt-10 pb-16 px-4 max-w-5xl mx-auto space-y-8">
         
-        <!-- Header Judul Utama -->
         <div class="text-center">
             <h1 id="title" class="text-2xl md:text-4xl font-bold tracking-tight text-white mb-1">Memuat...</h1>
             <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide uppercase">Dashboard Konten Serial TV</p>
         </div>
         
-        <!-- Wadah Gambar Atas & Tombol Download Sejajar -->
         <div class="flex flex-col md:flex-row gap-4 items-stretch glass-panel p-4 rounded-2xl shadow-xl">
-            <div id="galleryContainer" class="w-full md:w-[80%] flex items-center">
-                <!-- 5 Gambar ter-generate otomatis -->
-            </div>
+            <div id="galleryContainer" class="w-full md:w-[80%] flex items-center"></div>
             <div class="w-full md:w-[20%] flex items-center">
                 <button id="downloadImagesBtn" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 hover:scale-[1.02] active:scale-[0.98] text-white font-semibold p-4 rounded-xl flex flex-col items-center justify-center gap-2 text-center text-xs uppercase tracking-wider transition-all w-full h-full min-h-[90px] border border-emerald-500/20 shadow-md">
                     <i class="fa-solid fa-cloud-arrow-down text-2xl"></i>
@@ -120,7 +112,6 @@
             </div>
         </div>
 
-        <!-- Pemilih Dropdown (Font Dipertegas & Diperjelas) -->
         <div class="max-w-2xl mx-auto grid grid-cols-2 gap-5">
             <div>
                 <label class="block text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5 ml-1">Pilih Musim</label>
@@ -132,7 +123,6 @@
             </div>
         </div>
 
-        <!-- Kotak Kolom Hasil Utama -->
         <main class="max-w-3xl mx-auto">
             <section class="glass-panel p-6 rounded-3xl shadow-xl space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -152,14 +142,13 @@
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const showId = urlParams.get('id');
+        // showId sekarang murni menangkap ID dari TMDB
+        const showId = urlParams.get('id'); 
         const TMDB_API_KEY = "22be462e6d3de1dbab03d1ca50847b5a";
         
-        let allEpisodes = [];
         let currentShowNameRaw = ""; 
         let currentSeasonNum = 1;
         let currentEpNum = 1;
-        let currentTmdbId = "";
         let backdropPool = []; 
         let currentActiveImages = [];
 
@@ -168,10 +157,10 @@
         function generatePromoText(name, season, episode) {
             const cleanTitle = name.toLowerCase().replace(/[^a-z0-9]/g, '');
             const hashtagName = name.toLowerCase().replace(/ /g, '');
-            const finalTmdbId = currentTmdbId || showId;
-            const watchLink = `https://usflix.online/tv/${finalTmdbId}/${season}/${episode}`;
             
-            // Logika Pengacak Akhiran Judul Utama
+            // Menggunakan showId langsung karena strukturnya sudah murni ID TMDB
+            const watchLink = `https://usflix.online/tv/${showId}/${season}/${episode}`;
+            
             const suffixes = ["Full Episode HD", "Full Episode", "(HD)"];
             const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
             
@@ -194,65 +183,60 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
 
         async function init() {
             try {
-                const showRes = await fetch(`https://api.tvmaze.com/shows/${showId}?embed[]=seasons&embed[]=episodes`);
+                // Mengambil metadata utama serial TV langsung dari TMDB
+                const showRes = await fetch(`https://api.themoviedb.org/3/tv/${showId}?api_key=${TMDB_API_KEY}&language=id-ID`);
                 const show = await showRes.json();
-                allEpisodes = show._embedded.episodes;
+                
                 currentShowNameRaw = show.name;
                 document.getElementById('title').innerText = show.name;
 
-                await fetchTMDBData(show.name);
+                // Memuat asset gambar backdrop secara paralel dari endpoint images TMDB
+                await fetchTMDBImages(showId);
 
+                // Mengisi dropdown select Season berdasarkan object seasons dari TMDB
                 const seasonSelect = document.getElementById('seasonSelect');
-                show._embedded.seasons.forEach((s) => {
+                
+                // Filter out Season 0 (Specials) jika Anda hanya ingin fokus ke cerita utama
+                const validSeasons = show.seasons.filter(s => s.season_number > 0);
+                
+                validSeasons.forEach((s) => {
                     const option = document.createElement('option');
-                    option.value = s.id;
-                    option.dataset.number = s.number;
-                    option.textContent = `Season ${s.number}`;
+                    option.value = s.season_number; // Menyimpan nomor season untuk API call selanjutnya
+                    option.textContent = `Season ${s.season_number}`;
                     seasonSelect.appendChild(option);
                 });
 
                 seasonSelect.onchange = (e) => {
-                    currentSeasonNum = parseInt(e.target.options[e.target.selectedIndex].dataset.number);
+                    currentSeasonNum = parseInt(e.target.value);
                     shuffleAndDisplayImages();
-                    loadEpisodes(e.target.value, false);
+                    loadEpisodes(showId, currentSeasonNum);
                 };
 
-                if (allEpisodes.length > 0) {
-                    const now = new Date();
-                    let closestEpisode = allEpisodes[0];
-                    let minDiff = Math.abs(now - new Date(allEpisodes[0].airdate || 0));
-                    allEpisodes.forEach(ep => {
-                        if (ep.airdate) {
-                            const diff = Math.abs(now - new Date(ep.airdate));
-                            if (diff < minDiff) { minDiff = diff; closestEpisode = ep; }
-                        }
-                    });
-                    const targetSeason = show._embedded.seasons.find(s => s.number === closestEpisode.season) || show._embedded.seasons[0];
-                    seasonSelect.value = targetSeason.id;
-                    currentSeasonNum = targetSeason.number;
-                    loadEpisodes(targetSeason.id, false, closestEpisode.number);
+                // Inisialisasi otomatis ke Season pertama yang tersedia
+                if (validSeasons.length > 0) {
+                    seasonSelect.value = validSeasons[0].season_number;
+                    currentSeasonNum = validSeasons[0].season_number;
+                    await loadEpisodes(showId, currentSeasonNum);
                 }
 
                 document.getElementById('copySummaryBtn').onclick = () => copyContent('summary', document.getElementById('copySummaryBtn'));
                 document.getElementById('downloadImagesBtn').onclick = downloadAllImages;
                 document.getElementById('bodyTag').classList.remove('opacity-0');
-            } catch (err) { console.error(err); }
+            } catch (err) { console.error("Gagal memuat data utama TMDB:", err); }
         }
 
-        async function fetchTMDBData(query) {
+        async function fetchTMDBImages(tmdbId) {
             try {
-                const searchRes = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
-                const searchData = await searchRes.json();
-                if (searchData.results.length > 0) {
-                    currentTmdbId = searchData.results[0].id;
-                    const imgRes = await fetch(`https://api.themoviedb.org/3/tv/${currentTmdbId}/images?api_key=${TMDB_API_KEY}`);
-                    const imgData = await imgRes.json();
-                    
-                    backdropPool = (imgData.backdrops.length > 0 ? imgData.backdrops : imgData.posters)
-                                   .map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
-                    shuffleAndDisplayImages();
+                const imgRes = await fetch(`https://api.themoviedb.org/3/tv/${tmdbId}/images?api_key=${TMDB_API_KEY}`);
+                const imgData = await imgRes.json();
+                
+                if (imgData.backdrops && imgData.backdrops.length > 0) {
+                    backdropPool = imgData.backdrops.map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
+                } else if (imgData.posters && imgData.posters.length > 0) {
+                    backdropPool = imgData.posters.map(b => `https://image.tmdb.org/t/p/original${b.file_path}`);
                 }
-            } catch (e) { console.error(e); }
+                shuffleAndDisplayImages();
+            } catch (e) { console.error("Gagal mengambil gambar dari TMDB ID:", e); }
         }
 
         function shuffleAndDisplayImages() {
@@ -311,33 +295,43 @@ Thanks for visiting & watching.\n\n#${hashtagName}\n#${hashtagName}season${seaso
             setTimeout(() => btn.innerHTML = originalHTML, 2000);
         }
 
-        async function loadEpisodes(seasonId, autoSelectLast, targetEpisodeNum = null) {
+        async function loadEpisodes(tvId, seasonNumber) {
             const epSelect = document.getElementById('episodeSelect');
             epSelect.disabled = false;
             epSelect.classList.remove('opacity-50');
-            const res = await fetch(`https://api.tvmaze.com/seasons/${seasonId}/episodes`);
-            const episodes = await res.json();
-            epSelect.innerHTML = '<option value="" disabled>Pilih Episode...</option>';
             
-            let targetIndex = -1;
-            episodes.forEach((e, idx) => {
-                const option = document.createElement('option');
-                option.value = e.number;
-                option.textContent = `Eps ${e.number} - (${e.airdate || 'TBA'})`;
-                epSelect.appendChild(option);
-                if (targetEpisodeNum && e.number === targetEpisodeNum) targetIndex = idx + 1;
-            });
+            try {
+                // Memanggil list episode per season secara dinamis dari TMDB API
+                const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${TMDB_API_KEY}&language=id-ID`);
+                const seasonData = await res.json();
+                
+                epSelect.innerHTML = '<option value="" disabled>Pilih Episode...</option>';
+                
+                if(seasonData.episodes && seasonData.episodes.length > 0) {
+                    seasonData.episodes.forEach((e) => {
+                        const option = document.createElement('option');
+                        option.value = e.episode_number;
+                        option.textContent = `Eps ${e.episode_number} - (${e.air_date || 'TBA'})`;
+                        epSelect.appendChild(option);
+                    });
 
-            epSelect.onchange = (e) => {
-                currentEpNum = e.target.value;
-                document.getElementById('summary').innerText = generatePromoText(currentShowNameRaw, currentSeasonNum, currentEpNum);
-                shuffleAndDisplayImages();
-            };
+                    epSelect.onchange = (e) => {
+                        currentEpNum = e.target.value;
+                        document.getElementById('summary').innerText = generatePromoText(currentShowNameRaw, currentSeasonNum, currentEpNum);
+                        shuffleAndDisplayImages();
+                    };
 
-            if (targetIndex !== -1) epSelect.selectedIndex = targetIndex;
-            else epSelect.selectedIndex = 1;
-
-            epSelect.dispatchEvent(new Event('change'));
+                    // Default set ke episode 1 pada setiap ganti season
+                    epSelect.selectedIndex = 1;
+                    epSelect.dispatchEvent(new Event('change'));
+                } else {
+                    epSelect.innerHTML = '<option value="" disabled>Tidak ada episode</option>';
+                    epSelect.disabled = true;
+                    epSelect.classList.add('opacity-50');
+                }
+            } catch (err) {
+                console.error("Gagal memuat episode dari TMDB:", err);
+            }
         }
 
         function copyContent(elementId, btn) {
