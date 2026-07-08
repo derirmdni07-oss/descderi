@@ -158,30 +158,39 @@ function generatePromoText(name, season, episode) {
     const hashtagName = name.toLowerCase().replace(/ /g, '');
     const watchLink = `https://usflix.online/tv/${showId}/${season}/${episode}`;
     
-    // ================= 3 RANDOM VARIATION TITLES =================
+    // 1. 3 Variasi Judul Sesuai Pola SEO Anda
     const titleOptions = [
-        `${name} Season ${season} Episode ${episode} Full HD`,
-        `${name} Season ${season} Episode ${episode} (HD)`,
-        `${name} Season ${season} Episode ${episode} Full Episode 😱`,
-        `${name} Season ${season} Episode ${episode} HDQ`,
-        `${name} Season ${season} Episode ${episode} Full Episode HD😱`
+        `${name} Season ${season} Episode ${episode} Full Episodes`,
+        `${name} Season ${season} Episode ${episode} Full Episode`,
+        `${name} Season ${season} Episode ${episode} Full Episode HD`
     ];
-    // Memilih salah satu dari 3 judul di atas secara acak
+    // Memilih 1 dari 3 judul di atas secara acak setiap kali episode diganti
     const fixedTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)];
 
-    // 2. Teks Deskripsi (Kata kunci diacak ke dalam narasi paragraf panjang)
-    const fullDescription = `"🎬 Watch ${name} Season ${season} Episode ${episode} Full Episode\n\n` +
-                            `Tonight's release was absolutely chaotic! In this video, we provide a complete ${name} Season ${season} Episode ${episode} Full Episode recap. If you are deeply invested in the latest plot twists, you've come to the right place for a ${name} Season ${season} Continuous Breakdown. We dive straight into the shocking character relationships, unexpected drama, and everything that went down in this ${name} S${season} E${episode} Full HD presentation.\n\n` +
-                            `Many fans are currently scouring the internet looking where to Watch ${name} S${season}E${episode} Online Free, especially since tonight's massive cliffhanger changed the entire dynamic of the show. Instead of risking malware or wasting time searching for a sketchy Free Stream ${name} S${season} E${episode} on untrusted websites, stick around here! We have your ultimate ${name} S${season}E${episode} HD commentary right here, ensuring you don't miss a single detail from the ${name} Season ${season} Episode ${episode} HD broadcast.\n\n` +
-                            `We analyze the complete progression from start to finish, delivering a comprehensive ${name} Season ${season} Episode ${episode} Full HD storyline overview. What did you think about the ending of this ${name} S${season}XE${episode} Full Episode? The tension was real, and the pacing kept everyone on the edge of their seats. Let's discuss your theories and predictions regarding this ${name} S${season} X E${episode} Full Episode HD in the comments section below!\n\n` +
-                            `👉 LOOKING FOR THE FULL STREAM? Check out our PINNED COMMENT right below to access the uncut version immediately!\n\n` +
-                            `🔔 Support the Channel:\n` +
-                            `If you enjoyed this breakdown, please smash the like button and subscribe for daily series updates, recaps, and reviews!\n\n` +
-                            `*Disclaimer: This video is an analytical commentary, reaction, and review of ${name}. We do not own the official footage; all thoughts, theories, and opinions expressed are our own.*\n\n` +
-                            `#${hashtagName} #${hashtagName}s${season} #episoderecap #tvshows #realitytv #reaction #cinematic"`;
+    // 2. Deskripsi Minimalis (Pola SEO Sederhana)
+    const fullDescription = `"Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n` +
+                            `${name} S${season}E${episode} HD\n` +
+                            `${name} S${season} E${episode} Full HD\n` +
+                            `${name} S${season}XE${episode} Full Episode\n` +
+                            `${name} S${season} X E${episode} Full Episode HD\n` +
+                            `${name} Season ${season} Episode ${episode} HD\n` +
+                            `${name} Season ${season} Episode ${episode} Full HD\n` +
+                            `${name} Season ${season} Episode ${episode} Full Episode\n\n` +
+                            `This video contains commentary, reactions, analysis, and discussion about ${name} Season ${season} Episode ${episode}.\n\n` +
+                            `I hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\n` +
+                            `Subscribe to my channel and get notifications for the latest Episodes.\n` +
+                            `Thanks for visiting & watching.\n\n` +
+                            `#${hashtagName}\n` +
+                            `#${hashtagName}season${season}\n` +
+                            `#${hashtagName}episode${episode}\n` +
+                            `#${hashtagName}s${season}e${episode}\n` +
+                            `#tvseries #episodereview #seriesrecap #showbreakdown"`;
 
-    // 3. Format Baris CSV
-    return `${fixedTitle},${fullDescription},C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_5.jpg,"${name} S${season} E${episode}: ${watchLink}"`;
+    // 3. Pinned Comment
+    const shortComment = `"${name} S${season} E${episode}: ${watchLink}"`;
+
+    // 4. Baris Output CSV
+    return `${fixedTitle},${fullDescription},C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_5.jpg,${shortComment}`;
 }
 
         async function init() {
