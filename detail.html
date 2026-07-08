@@ -156,85 +156,32 @@
 function generatePromoText(name, season, episode) {
     const cleanTitle = name.toLowerCase().replace(/[^a-z0-9]/g, '');
     const hashtagName = name.toLowerCase().replace(/ /g, '');
-    
     const watchLink = `https://usflix.online/tv/${showId}/${season}/${episode}`;
     
-    // 1. Variasi Judul (Untuk Kolom 1 CSV)
-    const titles = [
-        `${name} Season ${season} Episode ${episode} Full Episode HD`,
-        `${name} Season ${season} Episode ${episode} Subtitle English`,
-        `Watch ${name} S${season}E${episode} Full Movie Breakdown`,
-        `${name} S${season}XE${episode} Recap & Full Episode Analysis`,
-        `${name} Season ${season} Episode ${episode} Live Stream Commentary`,
-        `Review ${name} Season ${season} Episode ${episode} Full Story`,
-        `${name} S${season} E${episode} Explained & Full Episode Review`,
-        `${name} Season ${season} Episode ${episode} Ending Explained HD`,
-        `Watch Along: ${name} Season ${season} Episode ${episode}`,
-        `${name} S${season}E${episode} Full Episode Preview & Breakdown`
-    ];
-    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-
-    // ================= BACAAN KEYWORD UTAMA DIACAK (RANDOMIZED) =================
-    const keywordTemplates = [
-        `${name} S${season}E${episode} HD`,
-        `${name} S${season} E${episode} Full HD`,
-        `${name} S${season}XE${episode} Full Episode`,
-        `${name} S${season} X E${episode} Full Episode HD`,
-        `${name} Season ${season} Episode ${episode} HD`,
+    // ================= 3 RANDOM VARIATION TITLES =================
+    const titleOptions = [
         `${name} Season ${season} Episode ${episode} Full HD`,
-        `${name} Season ${season} Episode ${episode} Full Episode`,
-        `Watch ${name} S${season}E${episode} Online Free`,
-        `${name} Season ${season} Continuous Breakdown`,
-        `Free Stream ${name} S${season} E${episode}`
+        `${name} Season ${season} Episode ${episode} (HD)`,
+        `${name} Season ${season} Episode ${episode} Full Episode 😱`,
+        `${name} Season ${season} Episode ${episode} HDQ`,
+        `${name} Season ${season} Episode ${episode} Full Episode HD😱`
     ];
-    // Proses mengacak urutan baris keyword agar selalu berbeda
-    const shuffledKeywords = keywordTemplates.sort(() => 0.5 - Math.random()).join('\n');
+    // Memilih salah satu dari 3 judul di atas secara acak
+    const fixedTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)];
 
-    // 2. Variasi Paragraf Pembuka / Intro
-    const intros = [
-        `Welcome back! Today we are breaking down everything that happened in ${name} Season ${season} Episode ${episode}. Don't miss the biggest twists!`,
-        `The hype is real! Here is our comprehensive look into ${name} S${season}E${episode} full breakdown and dramatic moments.`,
-        `In this video, we dive deep into the latest release: ${name} Season ${season} Episode ${episode}. Let's discuss what this means for the plot.`,
-        `Things are getting intense! Check out our full episode review and reaction for ${name} S${season} E${episode}.`,
-        `Are you looking for answers? Here is the complete breakdown of ${name} Season ${season} Episode ${episode} with all hidden details revealed.`,
-        `We are covering the latest updates, secrets, and major storylines featured in ${name} S${season}XE${episode}.`,
-        `Let's talk about the incredible performance and shockers in ${name} Season ${season} Episode ${episode}! Here is our full analysis.`,
-        `Get ready for an in-depth discussion on ${name} Season ${season} Episode ${episode}. We review the plot, characters, and theories!`,
-        `The latest chapter is officially here! Dive into our thoughts and full breakdown of ${name} S${season} E${episode}.`,
-        `If you just finished watching, let's analyze the shocking ending of ${name} Season ${season} Episode ${episode} together.`
-    ];
-    const randomIntro = intros[Math.floor(Math.random() * intros.length)];
+    // 2. Teks Deskripsi (Kata kunci diacak ke dalam narasi paragraf panjang)
+    const fullDescription = `"🎬 Watch ${name} Season ${season} Episode ${episode} Full Episode\n\n` +
+                            `Tonight's release was absolutely chaotic! In this video, we provide a complete ${name} Season ${season} Episode ${episode} Full Episode recap. If you are deeply invested in the latest plot twists, you've come to the right place for a ${name} Season ${season} Continuous Breakdown. We dive straight into the shocking character relationships, unexpected drama, and everything that went down in this ${name} S${season} E${episode} Full HD presentation.\n\n` +
+                            `Many fans are currently scouring the internet looking where to Watch ${name} S${season}E${episode} Online Free, especially since tonight's massive cliffhanger changed the entire dynamic of the show. Instead of risking malware or wasting time searching for a sketchy Free Stream ${name} S${season} E${episode} on untrusted websites, stick around here! We have your ultimate ${name} S${season}E${episode} HD commentary right here, ensuring you don't miss a single detail from the ${name} Season ${season} Episode ${episode} HD broadcast.\n\n` +
+                            `We analyze the complete progression from start to finish, delivering a comprehensive ${name} Season ${season} Episode ${episode} Full HD storyline overview. What did you think about the ending of this ${name} S${season}XE${episode} Full Episode? The tension was real, and the pacing kept everyone on the edge of their seats. Let's discuss your theories and predictions regarding this ${name} S${season} X E${episode} Full Episode HD in the comments section below!\n\n` +
+                            `👉 LOOKING FOR THE FULL STREAM? Check out our PINNED COMMENT right below to access the uncut version immediately!\n\n` +
+                            `🔔 Support the Channel:\n` +
+                            `If you enjoyed this breakdown, please smash the like button and subscribe for daily series updates, recaps, and reviews!\n\n` +
+                            `*Disclaimer: This video is an analytical commentary, reaction, and review of ${name}. We do not own the official footage; all thoughts, theories, and opinions expressed are our own.*\n\n` +
+                            `#${hashtagName} #${hashtagName}s${season} #episoderecap #tvshows #realitytv #reaction #cinematic"`;
 
-    // 3. Variasi Paragraf Penutup & CTA (Call to Action)
-    const outros = [
-        `Make sure to subscribe to the channel for more daily TV series breakdowns, recaps, and upcoming episode trailers. Thanks for watching!`,
-        `What did you think of this episode? Leave your theories in the comments below! Don't forget to like and subscribe for more ${name} content.`,
-        `Hit that notification bell so you never miss another episode analysis. Thank you for hanging out and supporting the channel!`,
-        `Drop a comment with your favorite scene! Stay tuned to this channel for all the latest updates on ${name} and more top tier shows.`,
-        `We appreciate you visiting! Support the channel by hitting that subscribe button for more regular series reviews.`,
-        `Join our community by subscribing! We will be covering every single episode of ${name} this season. See you in the next video!`,
-        `Thanks for watching our review! Subscribe now to join the discussion and stay updated on the latest releases.`,
-        `Don't miss our next video where we predict what happens next! Subscribe and like if you enjoyed this breakdown.`,
-        `Your support keeps us going! Thanks for checking out our review of ${name} S${season}E${episode}. Stay tuned for more!`,
-        `Make sure to smash that like button and subscribe for more deep-dives into your favorite television series.`
-    ];
-    const randomOutro = outros[Math.floor(Math.random() * outros.length)];
-
-    // 4. Variasi Kombinasi Tag/Hashtag untuk SEO Ranking Page 1
-    const hashtagSets = [
-        `#${hashtagName} #${hashtagName}season${season} #${hashtagName}episode${episode} #${hashtagName}s${season}e${episode} #tvseries #episodereview #seriesrecap #showbreakdown`,
-        `#${hashtagName}s${season} #${hashtagName}e${episode} #tvshow #fullepisode #trending #recaps #tvclips #drama`,
-        `#${hashtagName} #season${season} #episode${episode} #endingexplained #review #tvclips #series #hollywood`,
-        `#${hashtagName}s${season}e${episode} #tvseries2026 #episoderecap #plotbreakdown #theory #bestscenes #fullhd`,
-        `#${hashtagName} #tvshows #episodebreakdown #reaction #entertainment #mustwatch #seriesupdate #cinematic`
-    ];
-    const randomHashtags = hashtagSets[Math.floor(Math.random() * hashtagSets.length)];
-
-    // Gabungkan Teks Deskripsi (Bagian Atas Menggunakan shuffledKeywords)
-    const fullDescription = `"Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n${shuffledKeywords}\n\n${randomIntro}\n\nThis video contains commentary, reactions, analysis, and discussion about ${name} Season ${season} Episode ${episode}.\n\nI hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\n${randomOutro}\n\n${randomHashtags}"`;
-
-    // Kembalikan struktur string CSV asli tanpa merubah susunan path gambar dan link akhir
-    return `${randomTitle},${fullDescription},C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_5.jpg,"${name} S${season} E${episode}: ${watchLink}"`;
+    // 3. Format Baris CSV
+    return `${fixedTitle},${fullDescription},C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_1.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_2.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_3.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_4.jpg,C:\\Users\\Administrator\\Desktop\\thumb\\${cleanTitle}_5.jpg,"${name} S${season} E${episode}: ${watchLink}"`;
 }
 
         async function init() {
@@ -257,7 +204,6 @@ function generatePromoText(name, season, episode) {
                     seasonSelect.appendChild(option);
                 });
 
-                // --- CRITERIA: DETECT CURRENT EPS / SEASON NEAREST TO TODAY ---
                 let targetSeason = validSeasons.length > 0 ? validSeasons[0].season_number : 1;
                 let targetEpisode = 1;
 
