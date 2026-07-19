@@ -162,29 +162,107 @@ function generatePromoText(name, season, episode) {
     const titleOptions = [
         `${name} Season ${season} Episode ${episode} Full Episodes`,
         `${name} Season ${season} Episode ${episode} Full Episode`,
+        `${name} Season ${season} Episode ${episode} Full HD`,
+        `${name} Season ${season} Episode ${episode} - HD `,
+        `${name} S${season} E${episode} Full Episodes`,
+        `${name} Season ${season} Episode ${episode} Full Eps`,
+        `${name} Season ${season} Episode ${episode} Full Episode`,
+        `${name} Season ${season} Episode ${episode} Full HDQ`,
+        `${name} Season ${season} Episode ${episode} Full `,
         `${name} Season ${season} Episode ${episode} Full Episode HD`
     ];
-    // Memilih 1 dari 3 judul di atas secara acak setiap kali episode diganti
+    // Memilih 1 dari 3 judul secara acak
     const fixedTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)];
 
-    // 2. Deskripsi Minimalis (Pola SEO Sederhana)
-    const fullDescription = `"Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n` +
-                            `${name} S${season}E${episode} HD\n` +
-                            `${name} S${season} E${episode} Full HD\n` +
-                            `${name} S${season}XE${episode} Full Episode\n` +
-                            `${name} S${season} X E${episode} Full Episode HD\n` +
-                            `${name} Season ${season} Episode ${episode} HD\n` +
-                            `${name} Season ${season} Episode ${episode} Full HD\n` +
-                            `${name} Season ${season} Episode ${episode} Full Episode\n\n` +
-                            `This video contains commentary, reactions, analysis, and discussion about ${name} Season ${season} Episode ${episode}.\n\n` +
-                            `I hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\n` +
-                            `Subscribe to my channel and get notifications for the latest Episodes.\n` +
-                            `Thanks for visiting & watching.\n\n` +
-                            `#${hashtagName}\n` +
-                            `#${hashtagName}season${season}\n` +
-                            `#${hashtagName}episode${episode}\n` +
-                            `#${hashtagName}s${season}e${episode}\n` +
-                            `#tvseries #episodereview #seriesrecap #showbreakdown"`;
+    // 2. 5 Variasi Deskripsi SEO Terbaik (Anti-Spam & Ramah Algoritma)
+    const descriptionOptions = [
+        // Variasi 1: Pola Fokus Kata Kunci & Review Konten
+        `"Watch ${name} - Season ${season} Episode ${episode} Full Episode\n\n` +
+        `${name} S${season}E${episode} HD\n` +
+        `${name} S${season} E${episode} Full HD\n` +
+        `${name} S${season}XE${episode} Full Episode\n` +
+        `${name} S${season} X E${episode} Full Episode HD\n` +
+        `${name} Season ${season} Episode ${episode} HD\n` +
+        `${name} Season ${season} Episode ${episode} Full HD\n` +
+        `${name} Season ${season} Episode ${episode} Full Episode\n\n` +
+        `This video contains commentary, reactions, analysis, and discussion about ${name} Season ${season} Episode ${episode}.\n\n` +
+        `I hope you enjoy watching the series ${name} Season ${season} Episode ${episode} on My Channel.\n` +
+        `Subscribe to my channel and get notifications for the latest Episodes.\n` +
+        `Thanks for visiting & watching.\n\n` +
+        `#${hashtagName}\n` +
+        `#${hashtagName}season${season}\n` +
+        `#${hashtagName}episode${episode}\n` +
+        `#${hashtagName}s${season}e${episode}\n` +
+        `#tvseries #episodereview #seriesrecap #showbreakdown"`,
+
+        // Variasi 2: Pola Fokus "Full Streaming & Breaking News"
+        `"Full Movie HD Streaming: ${name} Season ${season} Episode ${episode}\n\n` +
+        `${name} Season ${season} Episode ${episode} Full Episode\n` +
+        `${name} Season ${season} Episode ${episode} HD\n` +
+        `${name} S${season}E${episode} Full HD\n` +
+        `${name} S${season} E${episode} Streaming\n` +
+        `${name} S${season}XE${episode} Online\n` +
+        `${name} S${season} X E${episode} Free\n` +
+        `Watch ${name} S${season} E${episode} Now\n\n` +
+        `Welcome back to the channel! Today we are diving into ${name} Season ${season} Episode ${episode} with a complete breakdown and final recap.\n\n` +
+        `Make sure to hit that subscribe button for more updates on ${name} Season ${season}.\n` +
+        `Enjoy the high-quality release and thank you for watching!\n\n` +
+        `#${hashtagName}season${season}\n` +
+        `#${hashtagName}episode${episode}\n` +
+        `#${hashtagName}\n` +
+        `#${hashtagName}s${season}e${episode}\n` +
+        `#fullepisode #tvshow #streaminghd #breakdown"`,
+
+        // Variasi 3: Pola Padat, Ringkas & Interaktif (Mengajak Komen)
+        `"Free Stream: ${name} Season ${season} Episode ${episode} Full HD\n\n` +
+        `${name} Season ${season} Episode ${episode} Full Episode HD\n` +
+        `${name} Season ${season} Episode ${episode} Full\n` +
+        `${name} S${season}E${episode}\n` +
+        `${name} S${season} E${episode}\n` +
+        `${name} S${season}XE${episode}\n` +
+        `${name} S${season} X E${episode}\n\n` +
+        `Get the latest clips, dynamic review, and exciting discussion about ${name} Season ${season} Episode ${episode} right here.\n\n` +
+        `Drop a comment below sharing your favorite scene or theory about ${name} Season ${season} Episode ${episode}!\n` +
+        `Activate the notification bell so you never miss a daily upload.\n\n` +
+        `#${hashtagName}\n` +
+        `#${hashtagName}s${season}e${episode}\n` +
+        `#${hashtagName}season${season}\n` +
+        `#${hashtagName}episode${episode}\n` +
+        `#clips #teaser #review #recap"`,
+
+        // Variasi 4: Pola Re-Run & Update Jadwal Tayang (Sangat Baik untuk Indexing)
+        `"Air Date Update: ${name} Season ${season} Episode ${episode} Premiere\n\n` +
+        `Watch ${name} S${season} E${episode} Full Movie\n` +
+        `${name} Season ${season} Episode ${episode} HD 1080p\n` +
+        `${name} Season ${season} Episode ${episode} Full Episode Live\n` +
+        `${name} S${season}E${episode} English Sub\n` +
+        `${name} S${season} E${episode} Full Episode Broadcast\n\n` +
+        `We are covering the latest official release of ${name} Season ${season} Episode ${episode}. Check out our theory videos and episode breakdown playlists.\n\n` +
+        `Support this community by sharing this video with fellow fans of ${name}.\n` +
+        `We appreciate your likes, comments, and channel subscriptions!\n\n` +
+        `#${hashtagName}episode${episode}\n` +
+        `#${hashtagName}s${season}e${episode}\n` +
+        `#${hashtagName}season${season}\n` +
+        `#${hashtagName}\n` +
+        `#tvpremiere #engsub #season${season} #episode${episode}"`,
+
+        // Variasi 5: Pola Eksklusif & Sinopsis Teaser (Gaya Bioskop/Platform Besar)
+        `"Exclusive Preview: ${name} Season ${season} Episode ${episode} Standard HD\n\n` +
+        `${name} S${season} X E${episode} Full HD Version\n` +
+        `${name} S${season}XE${episode} Full Stream\n` +
+        `${name} Season ${season} Episode ${episode} Full Episode Uncut\n` +
+        `Watch ${name} Season ${season} Episode ${episode} HD Quality\n\n` +
+        `Everything you need to know about the plot twists, reactions, and ending explanation of ${name} Season ${season} Episode ${episode}.\n\n` +
+        `Stay tuned for the next upload regarding upcoming episodes of the ${name} series.\n` +
+        `Thank you for stopping by my streaming network channel!\n\n` +
+        `#${hashtagName}s${season}e${episode}\n` +
+        `#${hashtagName}\n` +
+        `#${hashtagName}episode${episode}\n` +
+        `#${hashtagName}season${season}\n` +
+        `#exclusive #plotbreakdown #endingexplained #uncut"`
+    ];
+    // Memilih 1 dari 5 deskripsi di atas secara acak
+    const fullDescription = descriptionOptions[Math.floor(Math.random() * descriptionOptions.length)];
 
     // 3. Pinned Comment
     const shortComment = `"${name} S${season} E${episode}: ${watchLink}"`;
